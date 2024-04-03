@@ -1,99 +1,78 @@
 import React, { useState } from 'react';
-import apiService from './apiService.js';
-import { useNavigate, Link } from 'react-router-dom';
+import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import apiService from './apiService';
+import { useNavigate } from 'react-router-dom';
 
-const AddItemForm = () => {
+
+export function AddItemForm() {
   const navigate = useNavigate();
-  const [foodData, setFoodData] = useState({
-    desc: '',
-    kcal: '',
+  const [food, setFood] = useState({
+    name: '',
+    calories: '',
     protein: '',
-    fat: '',
     carbs: '',
+    fat: '',
+    fiber: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFoodData({
-      ...foodData,
-      [name]: value,
-    });
+  const validate = (food) => {
+    const errors = {};
+    if (food.calories < 0)
+      errors.calories = 'Calories must be a positive number!';
+    if (food.protein < 0) errors.protein = 'Protein must be a positive number!';
+    if (food.carbs < 0)
+      errors.carbs = 'Carbohydrates must be a positive number!';
+    if (food.fat < 0) errors.fat = 'Fat must be a positive number!';
+    if (food.fiber < 0) errors.fiber = 'Fiber must be a positive number!';
+
+    return errors;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await apiService.addFood(foodData).then(() => {
-      navigate('/');
-    });
+  const onInputChange = (e) => {
+    setFood((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-    setFoodData({
-      desc: '',
-      kcal: '',
-      protein: '',
-      fat: '',
-      carbs: '',
-    });
+  const onFoodSubmit = (e) => {
+    const currFieldErrs = validate(food);
+    e.preventDefault();
+
+    if (Object.keys(currFieldErrs).length) return;
+
+    apiService.addFood(food)
+      .then(() => navigate('/'))
+      .catch(() => alert('Failed to create food item. Please try again.'));
   };
 
   return (
-    <>
-      <h2>Create Food</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Description:</label>
-          <input
-            type="text"
-            name="desc"
-            value={foodData.desc}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>kcal:</label>
-          <input
-            type="number"
-            name="kcal"
-            value={foodData.kcal}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Protein (g):</label>
-          <input
-            type="number"
-            name="protein"
-            value={foodData.protein}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Fat (g):</label>
-          <input
-            type="number"
-            name="fat"
-            value={foodData.fat}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Carbs (g):</label>
-          <input
-            type="number"
-            name="carbs"
-            value={foodData.carbs}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Add Food</button>
-        <Link to="/">Back</Link>
-      </form>
-    </>
-  );
-};
+    <div>
+      <h2 className="mt-4">Add new food</h2>
 
-export default AddItemForm;
+      <Form
+        onSubmit={onFoodSubmit}
+        className="food-form border rounded mt-3 mb-4 mx-auto p-3"
+      >
+        <Form.Group className="mb-3 mt-1 mx-auto" controlId="formBasicName">
+          <FloatingLabel controlId="floatingInput1" label="Name" className="mb-1">
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={food.name}
+              onChange={onInputChange}
+              required
+            />
+          </FloatingLabel>
+        </Form.Group>
+
+        {/* Other form groups... */}
+
+        <Button variant="primary" type="submit" className="mb-1">
+          Add Food
+        </Button>
+      </Form>
+    </div>
+  );
+}

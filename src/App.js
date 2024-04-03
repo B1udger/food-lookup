@@ -1,16 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AddItemForm from './components/AddItemForm';
-import Home from './components/Home';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home } from './components/main/Main';
+import { AddItemForm } from './components/AddItemForm';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="add-item" element={<AddItemForm />} />
-      </Routes>
-    </Router>
+    <div className="App">
+      <Router> 
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/add" element={<AddItemForm />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

@@ -1,0 +1,44 @@
+{
+    "foods": [
+      {
+        "id": "1",
+        "desc": "Apple",
+        "kcal": 95,
+        "protein": 25,
+        "fat": 69,
+        "carbs": 321
+      },
+      {
+        "id": "2",
+        "desc": "Banana",
+        "kcal": 105,
+        "protein": 65,
+        "fat": 21,
+        "carbs": 321
+      },
+      {
+        "id": "3",
+        "desc": "Orange",
+        "kcal": 62,
+        "protein": 45,
+        "fat": 23,
+        "carbs": 12
+      },
+      {
+        "id": "aa99",
+        "desc": "123",
+        "kcal": "123",
+        "protein": "123",
+        "fat": "123",
+        "carbs": "123"
+      },
+      {
+        "id": "2c4c",
+        "desc": "Necessitatibus sed n",
+        "kcal": "20",
+        "protein": "80",
+        "fat": "48",
+        "carbs": "37"
+      }
+    ]
+  }

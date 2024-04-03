@@ -1,14 +1,13 @@
-// index.js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
-import { AddItemForm } from './components/AddItemForm'; // Import AddItemForm
+import App from './App'; // Import the App component
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AddItemForm /> {/* Render AddItemForm instead of App */}
+    <App /> {/* Render the App component */}
   </React.StrictMode>
 );
 
